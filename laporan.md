@@ -237,7 +237,7 @@ Pada bagian ini, evaluasi dilakukan untuk mengukur kinerja kedua model rekomenda
         * $N$ adalah jumlah prediksi.
         * $y_i$ adalah _rating_ sebenarnya (nilai target).
         * $\hat{y}_i$ adalah _rating_ yang diprediksi oleh model.
-    * **Cara Kerja:** RMSE mengukur besarnya selisih antara nilai yang diprediksi oleh model dan nilai sebenarnya. Ini adalah metrik yang umum digunakan untuk masalah regresi (prediksi nilai numerik). Semakin rendah nilai RMSE, semakin akurat prediksi _rating_ yang dihasilkan oleh model.
+    * **Cara Kerja:** RMSE mengukur besarnya selisih antara nilai rating yang diprediksi oleh model dan nilai rating sebenarnya. Ini adalah metrik yang umum digunakan untuk masalah regresi (prediksi nilai numerik). Semakin rendah nilai RMSE, semakin akurat prediksi _rating_ yang dihasilkan oleh model. 
 
 ### Hasil Proyek Berdasarkan Metrik Evaluasi
 #### Hasil Content-Based Filtering (Precision@10):
