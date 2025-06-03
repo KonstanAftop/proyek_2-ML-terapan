@@ -5,7 +5,7 @@ import os
 
 url = "https://files.grouplens.org/datasets/movielens/ml-latest-small.zip"
 
-output_dir = "ml-100k"
+output_dir = "dataset"
 os.makedirs(output_dir, exist_ok=True)
 
 response = requests.get(url)
