@@ -39,11 +39,11 @@ Kondisi data awal menunjukkan bahwa setiap file memiliki struktur kolom yang spe
 
 ### 1. movies.csv
 
-| Nama Variabel | Deskripsi                                             |      |
-| ------------- | ----------------------------------------------------- | ---- |
-| `movieId`     | ID unik untuk setiap film.                            |      |
-| `title`       | Judul film, termasuk tahun rilis dalam tanda kurung.  |      |
-| `genres`      | Daftar genre film yang dipisahkan oleh tanda pipa     |      |
+| Nama Variabel | Deskripsi                                             |      
+| ------------- | ----------------------------------------------------- | 
+| `movieId`     | ID unik untuk setiap film.                            |      
+| `title`       | Judul film, termasuk tahun rilis dalam tanda kurung.  |      
+| `genres`      | Daftar genre film yang dipisahkan oleh tanda pipa     |      
 
 ### 2. tags.csv
 
