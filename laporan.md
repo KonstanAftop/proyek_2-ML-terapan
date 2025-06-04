@@ -141,7 +141,8 @@ Proses encoding ini sangat krusial. Model deep learning tidak dapat secara langs
 ```python
 df_final_collaborative['rating']=df_final_collaborative['rating'].values.astype(np.float64)
 ```
-#### Alasan : Memastikan data rating dalam tipe numerik float sebagai target regresi.
+#### Alasan : 
+Memastikan data rating dalam tipe numerik float sebagai target regresi.
 #### c. Mengacak urutan baris (shuffling) sebelum data dibagi
 ``` python
 df_final_collaborative = df_final_collaborative.sample(frac=1, random_state=42)
