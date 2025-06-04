@@ -108,6 +108,7 @@ df_final2 = pd.merge(df_ratings, df_movies_cleaned, on='movieId', how='inner')
 ### 1. Persiapan Data untuk Content-Based Filtering
 
 Untuk model Content-Based Filtering, fokus utamanya adalah pada **atribut film** (`genres` dan `tag`) yang akan digunakan untuk mengidentifikasi kemiripan antar film.
+Sebelumnya, kita akan membuat dataframe baru dengan nama df_final_content_based yang merupakan hasil copy dari df_final.
 #### a. Pembersihan dan Penggabungan Fitur Konten
 - Kolom genres dibersihkan dengan menghapus karakter pemisah (|) dan menggantinya dengan spasi, memudahkan tokenisasi teks.
 - Kolom genres dan tag (yang sudah digabung) kemudian digabungkan menjadi satu kolom baru bernama extracted_features. Seluruh teks diubah menjadi huruf kecil (.str.lower()) untuk memastikan konsistensi dan menghindari duplikasi karena perbedaan kapitalisasi. Kolom inilah yang nantinya akan digunakan untuk menghitung kemiripan konten antar film.
@@ -128,6 +129,7 @@ Pembersihan dan penggabungan fitur menciptakan representasi teks yang komprehens
 
 ### 2. Persiapan Data untuk Collaborative Filtering Model Based Deep Learning
 Untuk model Collaborative Filtering berbasis Deep Learning, data perlu dipersiapkan dalam format yang memungkinkan model untuk belajar embedding pengguna dan film dari (`interaksi rating`).
+Sebelumnya, kita membuat dataframe baru dengan nama df_final_collaborative yang merupakan hasil copy dari df_final2.
 
 #### a. Encoding ID Pengguna dan Film
 - userId dan movieId yang awalnya berupa ID unik diubah menjadi indeks numerik berurutan (0, 1, 2, ...) menggunakan proses encoding. Ini penting karena model deep learning biasanya memerlukan input berupa indeks integer untuk embedding layer.
@@ -135,8 +137,12 @@ Untuk model Collaborative Filtering berbasis Deep Learning, data perlu dipersiap
 
 #### Alasan :
 Proses encoding ini sangat krusial. Model deep learning tidak dapat secara langsung memproses ID string atau ID numerik yang tidak berurutan. Dengan mengubahnya menjadi indeks berurutan, kita dapat menggunakan embedding layer yang efisien untuk mempelajari representasi vektor (embedding) untuk setiap pengguna dan film, yang merupakan dasar dari model Collaborative Filtering berbasis Deep Learning.
-
-#### b. Mengacak urutan baris (shuffling) sebelum data dibagi
+#### b. Konversi tipe data target menjadi float
+```python
+df_final_collaborative['rating']=df_final_collaborative['rating'].values.astype(np.float64)
+```
+#### Alasan : Memastikan data rating dalam tipe numerik float sebagai target regresi.
+#### c. Mengacak urutan baris (shuffling) sebelum data dibagi
 ``` python
 df_final_collaborative = df_final_collaborative.sample(frac=1, random_state=42)
 ```
@@ -146,7 +152,7 @@ df_final_collaborative = df_final_collaborative.sample(frac=1, random_state=42)
  #### Alasan :
  Memastikan bahwa ketika data kemudian dibagi menjadi set pelatihan dan validasi (misalnya 80% untuk pelatihan dan 20% untuk validasi), distribusi data di kedua set tersebut acak dan representatif dari keseluruhan dataset. Jika data tidak diacak, mungkin ada bias dalam pembagian data, misalnya semua data dari pengguna tertentu atau film tertentu berada di satu set saja, yang dapat mempengaruhi kinerja model dan evaluasinya.
 
-#### c. Menyiapkan matriks fitur (x) untuk input model
+#### d. Menyiapkan matriks fitur (x) untuk input model
 ``` python
 x = df_final_collaborative[['user_encoded','movie_encoded']].values
 ```
@@ -155,7 +161,7 @@ Diambil fitur user_encoded, dan movie_encoded sebagai prediktor dari rating yang
 - user_encoded mewakili identitas pengguna dalam bentuk numerik, sehingga model bisa mempelajari pola perilaku pengguna tertentu terhadap film.
 - movie_encoded mewakili identitas film dalam bentuk numerik, memungkinkan model mengenali kecenderungan film tertentu menerima rating tinggi atau rendah dari berbagai pengguna.
 
-#### d. Melakukan normalisasi rating yang akan menjadi target (y)
+#### e. Melakukan normalisasi rating yang akan menjadi target (y)
 Melakukan normalisasi nilai rating menjadi range [0,1] dengan formula :
 $$
 \text{rating}_{\text{normalized}} = \frac{\text{rating} - \text{rating}_{\min}}{\text{rating}_{\max} - \text{rating}_{\min}}
@@ -163,7 +169,7 @@ $$
 
 #### Alasan :
 Menyesuaikan skala target (y) agar sesuai dengan fungsi aktivasi sigmoid pada model deep learning, yang hanya menghasilkan output di rentang [0, 1].
-#### e. Melakukan Split Data untuk Training dan Validation
+#### f. Melakukan Split Data untuk Training dan Validation
 - x dan y masing-masing berisi fitur dan label (rating yang telah dinormalisasi).
 - train_indices menghitung 80% dari jumlah data (x.shape[0] adalah jumlah baris).
 - Data kemudian dibagi menjadi dua bagian:
