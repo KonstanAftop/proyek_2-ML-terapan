@@ -109,6 +109,10 @@ df_final2 = pd.merge(df_ratings, df_movies_cleaned, on='movieId', how='inner')
 
 Untuk model Content-Based Filtering, fokus utamanya adalah pada **atribut film** (`genres` dan `tag`) yang akan digunakan untuk mengidentifikasi kemiripan antar film.
 Sebelumnya, kita akan membuat dataframe baru dengan nama df_final_content_based yang merupakan hasil copy dari df_final.
+```python
+df_final_content_based = df_final.copy()
+```
+Hal ini agar kita kode lebih bersih dan penamaan lebih jelas.
 #### a. Pembersihan dan Penggabungan Fitur Konten
 - Kolom genres dibersihkan dengan menghapus karakter pemisah (|) dan menggantinya dengan spasi, memudahkan tokenisasi teks.
 - Kolom genres dan tag (yang sudah digabung) kemudian digabungkan menjadi satu kolom baru bernama extracted_features. Seluruh teks diubah menjadi huruf kecil (.str.lower()) untuk memastikan konsistensi dan menghindari duplikasi karena perbedaan kapitalisasi. Kolom inilah yang nantinya akan digunakan untuk menghitung kemiripan konten antar film.
@@ -130,6 +134,11 @@ Pembersihan dan penggabungan fitur menciptakan representasi teks yang komprehens
 ### 2. Persiapan Data untuk Collaborative Filtering Model Based Deep Learning
 Untuk model Collaborative Filtering berbasis Deep Learning, data perlu dipersiapkan dalam format yang memungkinkan model untuk belajar embedding pengguna dan film dari (`interaksi rating`).
 Sebelumnya, kita membuat dataframe baru dengan nama df_final_collaborative yang merupakan hasil copy dari df_final2.
+```python
+df_final_collaborative = df_final2.copy()
+```
+Hal ini agar kita kode lebih bersih dan penamaan lebih jelas.
+
 
 #### a. Encoding ID Pengguna dan Film
 - userId dan movieId yang awalnya berupa ID unik diubah menjadi indeks numerik berurutan (0, 1, 2, ...) menggunakan proses encoding. Ini penting karena model deep learning biasanya memerlukan input berupa indeks integer untuk embedding layer.
